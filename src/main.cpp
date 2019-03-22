@@ -171,21 +171,6 @@ void setup() {
       door.write(20);
     }
     
-
-    // if (val == 20) {
-    //   while (val < 110) {
-    //     val++;
-    //     door.write(val);
-    //     delay(30);
-    //   }
-    // } else {
-    //   while (val > 20) {
-    //     val--;
-    //     door.write(val);
-    //     delay(30);
-    //   }
-    // }
-
     request->send(200, "text/plain", String(val));
   });
 
