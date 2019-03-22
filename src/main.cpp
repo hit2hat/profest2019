@@ -7,6 +7,7 @@
 
 #define API_DEBUG true
 #define MAX_CLIENTS 5
+#define HOTSPOT true
 #define HTTP_RESPONSE_OK "OK"
 #define HTTP_RESPONSE_BAD "BAD"
 
@@ -57,9 +58,13 @@ bool registerClient(client target) {
 
 void setup() {
   Serial.begin(9600);
-  // WiFi.begin(ssid, pass);
-  // while (WiFi.status() != WL_CONNECTED) { delay(100); }
-  WiFi.softAP(ssid, pass);
+  if (HOTSPOT) {
+    WiFi.softAP(ssid, pass);
+  } else {
+    WiFi.begin(ssid, pass);
+    while (WiFi.status() != WL_CONNECTED) { delay(100); }
+  }
+  
   Serial.println(WiFi.localIP());
   SPIFFS.begin();
 
