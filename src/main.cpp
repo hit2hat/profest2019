@@ -5,17 +5,23 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+#include <Servo.h>
 
 #define API_DEBUG true
 #define MAX_CLIENTS 5
-#define HOTSPOT true
+#define HOTSPOT false
 #define HTTP_RESPONSE_OK "OK"
 #define HTTP_RESPONSE_BAD "BAD"
 
 AsyncWebServer server(80);
+DHT_Unified dht(D7, DHT11);
+Servo door;
 
-const char* ssid = "Stable Network";
-const char* pass = "7jc96283ud56ij2";
+const char* ssid = "Hit2Hat";
+const char* pass = "09876789000";
 
 byte registeredClients = 0;
 
@@ -33,8 +39,8 @@ struct {
   byte fuel = 0;
   byte countCharges = 0;
   byte countMissions = 0;
-  byte temperature = 0;
-  byte humidity = 0;
+  float temperature = 0;
+  float humidity = 0;
 } metrics;
 
 client* findClientByName(String _name) {
@@ -68,6 +74,8 @@ void setup() {
   
   Serial.println(WiFi.localIP());
   SPIFFS.begin();
+  dht.begin();
+  door.attach(D5);
 
   /*
     Get all metrics
@@ -76,8 +84,8 @@ void setup() {
   */
   server.on("/api/getMetrics", HTTP_GET, [](AsyncWebServerRequest *request) {
     DynamicJsonDocument result(200);
-    result["temperature"] = metrics.temperature;
-    result["humidity"] = metrics.humidity;
+    result["temperature"] = (int) metrics.temperature;
+    result["humidity"] = (int) metrics.humidity;
     result["fuel"] = metrics.fuel;
     result["coords_x"] = metrics.coords.x;
     result["coords_y"] = metrics.coords.y;
@@ -164,6 +172,16 @@ void setup() {
 }
 
 void loop() {
-  // Change metrics.temperature
-  // Change metrics.humidity
+  delay(1000);
+  sensors_event_t event;
+
+  dht.temperature().getEvent(&event);
+  if (!isnan(event.temperature)) {
+    metrics.temperature = event.temperature;
+  }
+
+  dht.humidity().getEvent(&event);
+  if (!isnan(event.relative_humidity)) {
+    metrics.humidity = event.relative_humidity;
+  }
 }
