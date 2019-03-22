@@ -4,6 +4,7 @@
 #include <Hash.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <ArduinoJson.h>
 
 #define API_DEBUG true
 #define MAX_CLIENTS 5
@@ -69,9 +70,25 @@ void setup() {
   SPIFFS.begin();
 
   /*
-    Get data
+    Get all metrics
+    return:
+      @data - metrics in json
   */
+  server.on("/api/getMetrics", HTTP_GET, [](AsyncWebServerRequest *request) {
+    DynamicJsonDocument result(200);
+    result["temperature"] = metrics.temperature;
+    result["humidity"] = metrics.humidity;
+    result["fuel"] = metrics.fuel;
+    result["coords_x"] = metrics.coords.x;
+    result["coords_y"] = metrics.coords.y;
+    result["count_charges"] = metrics.countCharges;
+    result["count_missions"] = metrics.countMissions;
 
+    String result_string;
+    serializeJson(result, result_string);
+
+    request->send(200, "application/json", result_string);
+  });
 
   /*
     Auth on server
