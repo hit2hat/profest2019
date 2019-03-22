@@ -9,6 +9,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <Servo.h>
+#include <RestClient.h>
 
 #define API_DEBUG true
 #define MAX_CLIENTS 5
@@ -176,6 +177,15 @@ void setup() {
 
   server.on("/api/actions/onFuelEnd", HTTP_GET, [](AsyncWebServerRequest *request){
     //TODO: return combine to last coords
+  });
+
+  server.on("/api/trunLed", HTTP_GET, [](AsyncWebServerRequest *request) {
+    client* charger = findClientByName("charger");
+    char ip[255];
+    charger->ip.toCharArray(ip, 255);
+    RestClient rest = RestClient(ip);
+    rest.get("/api/turnLed");
+    request->send(200, "text/plain", "OK");
   });
 
   server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");

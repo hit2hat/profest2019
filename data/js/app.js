@@ -31,4 +31,9 @@ const toggleDoor = () => {
     })
 };
 
+const toggleCharger = () => {
+    fetch("http://172.20.10.7/api/turnLed")
+    
+};
+
 App();
