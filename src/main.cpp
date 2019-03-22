@@ -64,6 +64,11 @@ void setup() {
   SPIFFS.begin();
 
   /*
+    Get data
+  */
+
+
+  /*
     Auth on server
     params:
       @name - name of connecting device
