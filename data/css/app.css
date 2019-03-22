@@ -1,0 +1,143 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: SF Pro Display, serif;
+}
+
+.app {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1180px;
+}
+
+
+/*
+    Header
+ */
+
+header {
+    display: flex;
+    align-items: center;
+    background: #1893FF;
+    color: white;
+    padding: 15px 20px;
+}
+
+header > h1 {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+header > h3 {
+    margin-left: auto;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+/*
+    Content
+ */
+.content {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    width: 100%;
+}
+
+/*
+    Cards
+ */
+
+.cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 12px 12px;
+    border: #1893FF solid 3px;
+    border-radius: 10px;
+    height: 125px;
+    color: #1893FF;
+}
+
+.card > h2 {
+    font-size: 48px;
+}
+
+/*
+    Map
+ */
+.map {
+    display: grid;
+    overflow: hidden;
+    border-radius: 10px;
+    border: #1893FF solid 3px;
+    margin: 12px 12px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.cell {
+    border: rgba(0, 0, 0, .5) solid 1px;
+}
+
+.map > .active {
+    border: #FF1818 solid 1px;
+}
+
+/*
+    Buttons
+ */
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.button {
+    display: flex;
+    border-radius: 45px;
+    background: #1893FF;
+    color: white;
+    margin: 12px;
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+}
+.buttons > .danger {
+    border: #FF1818 solid 3px;
+    color: #FF1818;
+    background: white;
+}
+
+/*
+    Logs
+ */
+.logs {
+    border: #1893FF solid 3px;
+    margin: 12px;
+    border-radius: 10px;
+    padding: 0 15px 15px;
+}
+
+.log {
+    margin-top: 15px;
+    border: #1893FF solid 3px;
+    border-radius: 10px;
+    padding: 10px 10px;
+}
+
+.log > .label {
+    background: #1893FF;
+    border-radius: 45px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+}
+
+.log > .system {
+    background: #FF1818;
+}
