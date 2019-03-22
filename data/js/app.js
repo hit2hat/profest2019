@@ -21,4 +21,14 @@ const App = () => {
     });
 };
 
+const toggleDoor = () => {
+    fetch("/api/toggleDoor")
+    .then(() => {
+        console.log("OK");
+    })
+    .catch(() => {
+        console.log("HEEEEELP");
+    })
+};
+
 App();

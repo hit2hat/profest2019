@@ -76,6 +76,7 @@ void setup() {
   SPIFFS.begin();
   dht.begin();
   door.attach(D5);
+  door.write(20);
 
   /*
     Get all metrics
@@ -160,6 +161,32 @@ void setup() {
     if (API_DEBUG) {
       Serial.println("[/api/setCoords]: new value is (" + String(metrics.coords.x) + ":" + String(metrics.coords.y) + ")");
     }
+  });
+
+  server.on("/api/toggleDoor", HTTP_GET, [](AsyncWebServerRequest *request) {
+    int val = door.read();
+    if(val == 20) {
+      door.write(180);
+    } else {
+      door.write(20);
+    }
+    
+
+    // if (val == 20) {
+    //   while (val < 110) {
+    //     val++;
+    //     door.write(val);
+    //     delay(30);
+    //   }
+    // } else {
+    //   while (val > 20) {
+    //     val--;
+    //     door.write(val);
+    //     delay(30);
+    //   }
+    // }
+
+    request->send(200, "text/plain", String(val));
   });
 
   server.on("/api/actions/onFuelEnd", HTTP_GET, [](AsyncWebServerRequest *request){

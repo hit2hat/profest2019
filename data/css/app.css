@@ -106,6 +106,7 @@ header > h3 {
     padding: 10px 0;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .buttons > .danger {
     border: #FF1818 solid 3px;
